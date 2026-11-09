@@ -6,7 +6,7 @@
 <title>친구끼리 홀덤</title>
 <meta name="theme-color" content="#0b0f14">
 <meta property="og:title" content="🃏 친구끼리 홀덤">
-<meta property="og:description" content="로그인 없이 링크로 바로 입장! 최대 15명">
+<meta property="og:description" content="로그인 없이 링크로 바로 입장! 최대 10명">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Cinzel:wght@700;900&family=Jua&display=swap" rel="stylesheet">
 <style>
@@ -605,7 +605,7 @@ function startPractice(){
   const bb=st.mode?(st.fix||400):400;
   HR={code:'PRAC',host:S.me,created:Date.now(),updated:Date.now(),settings:{chips:st.chips,sb:bb/2,bb,upMin:st.mode?0:6,maxBb:MAX_BB,rebuy:st.rebuy===0?0:1},players:{},order:[],seqs:{},hand:null,handNo:0,started:true,paused:false};
   HR.players[S.me]={name:S.name,chips:st.chips,rebuys:0,sitOut:false,left:false};HR.order.push(S.me);
-  for(let k=0;k<Math.min(10,st.bots||1);k++){const id='bot-'+k;HR.players[id]={name:BOT_NAMES[k]+' 🤖',chips:st.chips,rebuys:0,sitOut:false,left:false,bot:true};HR.order.push(id)}
+  for(let k=0;k<Math.min(9,st.bots||1);k++){const id='bot-'+k;HR.players[id]={name:BOT_NAMES[k]+' 🤖',chips:st.chips,rebuys:0,sitOut:false,left:false,bot:true};HR.order.push(id)}
   HP=null;S.room=HR;S.code=null;S.view='room';S.my={n:0,cards:null};
   try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}
   hq(hostDeal);
@@ -759,7 +759,7 @@ const bl=b=>{const k=x=>x>=10000?(x/10000)+'만':fmt(x);return k(b/2)+'/'+k(b)};
 function homeView(){
   const st=S.create||(S.create={chips:100000,mode:0,fix:400,bots:1,rebuy:1});
   const opt=(k,vals,lab)=>`<div class="sel">${vals.map((v,i)=>`<button class="${st[k]==v?'on':''}" data-set="${k}" data-v="${v}">${lab?lab[i]:v}</button>`).join('')}</div>`;
-  return `<div class="hero"><div class="logo">🂡🂮</div><h1>친구끼리 홀덤</h1><p>최대 15명 · 각자 폰으로 접속 · 칩은 가짜 포인트</p></div>
+  return `<div class="hero"><div class="logo">🂡🂮</div><h1>친구끼리 홀덤</h1><p>최대 10명 · 각자 폰으로 접속 · 칩은 가짜 포인트</p></div>
   ${S.err?`<div class="card"><div class="err" style="margin:0">${esc(S.err)}</div></div>`:''}
   <div class="netst">${S.net==='on'?'🟢 서버 연결됨 · 로그인 없이 바로 참여 가능':S.netSlow?'🟡 서버 깨우는 중… (처음엔 최대 1분)':'🟡 서버 연결 중…'}</div>
   <div class="card">
@@ -770,7 +770,7 @@ function homeView(){
   <div class="card">
     <h3>🤖 연습 게임</h3>
     <p class="muted" style="margin:0 0 6px">혼자서 컴퓨터 게스트와 바로 해봐요. 아래 방 설정(시작 칩·블라인드)이 그대로 적용돼요.</p>
-    <label>게스트 수</label>${opt('bots',[1,2,3,4,5,6,7,8,9,10],[1,2,3,4,5,6,7,8,9,10].map(n=>n+'명'))}
+    <label>게스트 수</label>${opt('bots',[1,2,3,4,5,6,7,8,9],[1,2,3,4,5,6,7,8,9].map(n=>n+'명'))}
     <button class="primary" data-act="practice" style="background:linear-gradient(135deg,#d8ffe9,#3ccf8e 30%,#0f7a4c 60%,#7fe6b5);color:#03241a;box-shadow:0 4px 0 #064d2e,0 10px 24px rgba(34,184,119,.3)">🤖 게스트와 연습 시작</button>
   </div>
   <div class="card">
@@ -794,7 +794,7 @@ function lobbyView(r){
   const s=r.settings;
   return `${topBar(r)}
   <div class="card">
-    <h2>대기실 · ${act.length}/15명</h2>
+    <h2>대기실 · ${act.length}/10명</h2>
     <div class="bigcode" data-act="copy"><span>방 코드</span><b>${esc(r.code)}</b><em>📋 탭해서 복사</em></div>
     <div class="row" style="margin:0 0 8px"><button class="small" data-act="copy">📋 코드만 복사</button><button class="small" data-act="copyinvite">💬 초대 메시지 복사</button></div>
     <p class="muted" style="margin:0 0 8px">복사한 걸 카톡에 붙여넣어 친구에게 보내 주세요.</p>

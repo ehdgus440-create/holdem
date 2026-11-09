@@ -9,7 +9,7 @@ const E = require('./engine.js');
 
 const PORT = process.env.PORT || 3000;
 const PAGE = path.join(__dirname, 'public', 'index.html');
-const MAX_PLAYERS = 15;
+const MAX_PLAYERS = 10;
 const NEXT_HAND_MS = 9000;
 const ROOM_IDLE_MS = 3 * 60 * 60 * 1000; // 아무도 없이 3시간 지나면 방 정리
 
@@ -166,7 +166,7 @@ function onJoin(ws, m) {
   ws.name = name;
   let p = r.players[ws.id];
   if (!p) {
-    if (r.order.filter(u => !r.players[u].left).length >= MAX_PLAYERS) return sendTo(ws, { t: 'err', msg: '방이 꽉 찼어요 (최대 15명).', home: true });
+    if (r.order.filter(u => !r.players[u].left).length >= MAX_PLAYERS) return sendTo(ws, { t: 'err', msg: '방이 꽉 찼어요 (최대 10명).', home: true });
     p = r.players[ws.id] = { name, chips: r.settings.chips, rebuys: 0, sitOut: false, left: false };
     r.order.push(ws.id);
     if (r.hand) E.hlog(r.hand, `👋 ${name} 입장 (다음 판부터 참여)`);
