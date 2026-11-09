@@ -2,9 +2,17 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
 <title>친구끼리 홀덤</title>
 <meta name="theme-color" content="#0b0f14">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/icon.svg">
+<link rel="apple-touch-icon" href="/icon.svg">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="친구홀덤">
+
 <meta property="og:title" content="🃏 친구끼리 홀덤">
 <meta property="og:description" content="로그인 없이 링크로 바로 입장! 최대 10명">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -281,6 +289,74 @@ details summary{color:var(--gold2)}
 .toast{background:linear-gradient(180deg,#1d1810,#0a0806);border:1px solid var(--gold3);color:var(--gold1);box-shadow:0 8px 24px rgba(0,0,0,.6),0 0 18px rgba(212,166,60,.25)}
 .notice{background:rgba(245,210,122,.1);color:var(--gold1)}
 .pc{animation:none}.pc.fresh{animation:pop .35s ease-out}.banner{animation:none}.banner.fresh{animation:pop .4s ease-out}
+
+/* ===== 한 화면 꽉 차게 (게임 중) ===== */
+body.ingame{overflow:hidden;overscroll-behavior:none}
+body.ingame #app{height:100vh;height:100dvh;display:flex;flex-direction:column;padding:calc(6px + env(safe-area-inset-top)) 8px calc(6px + env(safe-area-inset-bottom));max-width:620px}
+body.ingame .top{flex:none;flex-wrap:wrap;gap:6px;margin:0}
+body.ingame .top .codebox{flex:1;padding:4px 10px}
+body.ingame .top .codebox b{font-size:18px}
+body.ingame .topbtn{padding:6px 10px;font-size:15px}
+body.ingame .top .t{order:5;flex-basis:100%;font-size:11px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tablearea{flex:1;min-height:0;position:relative}
+body.ingame .tw{position:absolute;inset:30px 4px 34px;width:auto;aspect-ratio:auto;max-height:none;margin:0!important}
+body.ingame .tw .rail{left:9%;right:9%;top:6%;bottom:6%}
+.tw .banner{position:absolute;left:50%;top:70%;transform:translate(-50%,-50%);width:66%;margin:0;padding:6px 8px;z-index:4;font-size:16px}
+.tw .banner.fresh{animation:bpop .4s ease-out}
+@keyframes bpop{from{transform:translate(-50%,-50%) scale(.6);opacity:0}}
+.tw .banner .bt{font-size:17px}
+.tw .banner small{font-size:11px;margin-top:2px}
+body.ingame .mine{flex:none;margin-top:4px;padding:8px 10px}
+body.ingame .mycards{gap:6px}
+body.ingame .pc.big{width:46px;height:64px;border-radius:7px}
+body.ingame .pc.big .r{font-size:22px}body.ingame .pc.big .s{font-size:19px}
+body.ingame .mystr b{font-size:19px}
+body.ingame .mystr .muted{font-size:12px}
+body.ingame .wait{padding:6px 0 0;font-size:13px}
+body.ingame .tbar{margin-top:6px;height:6px}
+body.ingame .acts{margin-top:6px;gap:6px}
+body.ingame .acts button{padding:11px 4px;font-size:15px}
+.acts.a3{grid-template-columns:1fr 1fr 1fr}
+body.ingame .raisebox{margin-top:6px;padding:6px 8px}
+body.ingame .raisebox input[type=range]{height:26px}
+body.ingame .quick{margin-top:2px}
+body.ingame .quick button{padding:6px 2px}
+body.ingame .mine .primary{margin-top:6px;padding:10px;font-size:15px}
+body.ingame .emotes{flex:none;margin-top:5px}
+body.ingame .emotes button{padding:5px 9px;font-size:12px}
+.sheetbg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:40}
+.sheet{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:100%;max-width:620px;max-height:82vh;overflow:auto;z-index:41;border-radius:18px 18px 0 0;padding:14px 14px calc(14px + env(safe-area-inset-bottom));background:linear-gradient(170deg,#1c1812,#0a0907);border:1px solid var(--line);border-bottom:0;box-shadow:0 -10px 30px rgba(0,0,0,.6);animation:sheetup .22s ease-out}
+@keyframes sheetup{from{transform:translate(-50%,40px);opacity:0}}
+.sheet .stats{margin:0;box-shadow:none;border:0;background:none;padding:0}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mgrid button{padding:12px 6px;font-size:14px}
+.sheet .hostbar{margin:0}.sheet .hostbar button{flex:1}
+.sheet .log{max-height:none}
+
+body.ingame .mine{position:relative;z-index:10}
+body.ingame .raisebox{position:absolute;left:0;right:0;bottom:calc(100% + 6px);margin:0;z-index:8;background:linear-gradient(170deg,#1c1812,#0a0907)!important;border:1px solid var(--gold3);box-shadow:0 -8px 24px rgba(0,0,0,.6);border-radius:14px;animation:sheetup .18s ease-out}
+body.ingame .tw{inset:44px 4px 30px}
+.tablearea{container-type:size}
+@container (max-height:470px){
+.tablearea .tw .seat{width:58px}
+.tablearea .tw .ring{width:34px;height:34px}
+.tablearea .tw .seat .av{width:28px;height:28px;font-size:13px}
+.tablearea .tw .plate{min-width:48px;max-width:60px;padding:1px 3px}
+.tablearea .tw .sn,.tablearea .tw .sc{font-size:10px}
+.tablearea .tw .scards .pc.mini{width:17px;height:24px}
+.tablearea .tw .scards .pc.mini .r{font-size:9px}
+.tablearea .tw .scards .pc.mini .s{font-size:8px}
+.tablearea .tw .la{font-size:9px;padding:0 4px}
+.tablearea .tw .hn{font-size:9px}
+.tablearea .tw .pc.bd{width:28px;height:40px}
+.tablearea .tw .pc.bd .r{font-size:13px}
+.tablearea .tw .pc.bd .s{font-size:11px}
+.tablearea .tw .pot{font-size:14px;margin-top:3px}
+.tablearea .tw .street{font-size:9px}
+.tablearea .tw .sbet{font-size:10px}
+.tablearea .tw .tw .banner .bt{font-size:14px}
+.tablearea .tw .tw .banner small{font-size:10px}
+}
 </style>
 </head>
 <body>
@@ -745,8 +821,9 @@ function render(){
   S.bseenNext=null;S.bannerNext=null;
   const app=$('#app');
   if(!S.loaded){if(S.err)app.innerHTML=`<div class="hero"><div class="logo">🂡🂮</div><h1>친구끼리 홀덤</h1></div><div class="card"><div class="err">${esc(S.err)}</div></div>`;return}
-  if(S.view==='home'||!S.room){app.innerHTML=homeView();S.lastHTML=null;return}
+  if(S.view==='home'||!S.room){document.body.classList.remove('ingame');app.innerHTML=homeView();S.lastHTML=null;return}
   const r=R();
+  document.body.classList.toggle('ingame',!!r.started);
   const html=(r.started?tableView(r):lobbyView(r));
   if(html!==S.lastHTML){app.innerHTML=html;S.lastHTML=html}
   if(S.bseenNext)S.bseen=S.bseenNext;if(S.bannerNext)S.bannerN=S.bannerNext;
@@ -807,7 +884,9 @@ function lobbyView(r){
 }
 function topBar(r){
   const H=r.hand;
-  return `<div class="top"><span class="codebox">${S.practice?'<b style="font-size:16px;letter-spacing:0">🤖 연습</b>':`<span data-act="copy" style="cursor:pointer">방<b>${esc(r.code)}</b> 📋</span>`}</span><span class="t">${H?`${H.n}번째 판 · 블라인드 ${fmt(H.sbA)}/${fmt(H.bbA)}`:''}${blindInfo(r)}</span><button class="topbtn" data-act="voice">${S.voice?'🔊':'🔇'}</button><button class="topbtn" data-act="stats">📊 칩</button><button class="topbtn" data-act="leave">나가기</button></div>`;
+  return `<div class="top"><span class="codebox">${S.practice?'<b style="font-size:15px;letter-spacing:0">🤖 연습</b>':`<span data-act="copy" style="cursor:pointer">방<b>${esc(r.code)}</b>📋</span>`}</span>
+    <button class="topbtn" data-act="voice">${S.voice?'🔊':'🔇'}</button><button class="topbtn" data-act="stats">📊</button><button class="topbtn" data-act="menu">☰</button>
+    <span class="t">${H?`${H.n}번째 판 · 블라인드 ${fmt(H.sbA)}/${fmt(H.bbA)}`:''}${blindInfo(r)}</span></div>`;
 }
 function blindInfo(r){
   const m=+r.settings.upMin||0;if(!m)return '<br><span class="bsep"></span>📌 블라인드 고정';if(!r.startedAt)return '';
@@ -829,7 +908,7 @@ function tableView(r){
   const seats=list.slice(mi).concat(list.slice(0,mi)),N=seats.length;
   const sz=(N<=6?'s-lg':N<=10?'s-md':'s-sm')+(N<=3?' s-few':'');
   let html=topBar(r);
-  html+=`<div class="tw ${sz}"><div class="rail"><div class="felt">
+  html+=`<div class="tablearea"><div class="tw ${sz}"><div class="rail"><div class="felt">
     <div class="feltlogo">친구끼리 HOLD'EM</div>
     <div class="center">
       <div class="board">${[0,1,2,3,4].map(i=>cardHTML(H&&H.board[i],'bd'+(H&&H.board[i]&&i>=(S.bseen&&S.bseen.n===H.n?S.bseen.c:0)?' fresh':''))).join('')}</div>
@@ -861,19 +940,18 @@ function tableView(r){
     if(ps&&H.street!=='done'&&ps.bet>0){const bx=50+29*cx,by=50+27*cy;html+=`<div class="sbet" style="left:${bx}%;top:${by}%"><span class="chipico"></span>${fmt(ps.bet)}</div>`}
     if(H&&H.dealer===u){const dx=50+33*Math.cos(a+.32),dy=50+31*Math.sin(a+.32);html+=`<div class="dbtn" style="left:${dx}%;top:${dy}%">D</div>`}
   });
-  html+=`</div>`;
   if(H)S.bseenNext={n:H.n,c:H.board.length};
   if(H&&H.street==='done'&&H.result)html+=resultBanner(r,H);
   const alive=r.order.filter(u=>canPlay(r,u));
   if(H&&H.street==='done'&&alive.length<2&&r.order.filter(u=>!r.players[u].left).length>=2){
     const w=r.order.find(u=>r.players[u].chips>0);
     html+=`<div class="banner"><span class="bt">${w?`👑 ${esc(nm(w))} 남은 칩 독식!`:'게임 끝'}</span><small>${r.settings.rebuy!==0?'칩이 없는 사람이 리바인하면 계속할 수 있어요':'리바인이 꺼져 있어서 게임이 끝났어요'}</small></div>`}
-  if(S.showStats)html+=statsPanel(r,H);
-  if(S.showVoice)html+=voicePanel();
+  html+=`</div></div>`;
   html+=myPanel(r,H);
   html+=emoteBar();
-  if(host)html+=hostBar(r,H);
-  if(H&&H.log.length)html+=`<div class="log">${H.log.slice(-12).reverse().map(esc).join('<br>')}</div>`;
+  if(S.showStats)html+=sheet(statsPanel(r,H),'stats');
+  if(S.showVoice)html+=sheet(voicePanel(),'voicepanel');
+  if(S.showMenu)html+=sheet(menuPanel(r,H),'menu');
   return html;
 }
 function resultBanner(r,H){
@@ -920,6 +998,18 @@ function statsPanel(r,H){
     <table><thead><tr><th>#</th><th>이름</th><th>보유 칩</th><th>리바인</th><th>손익</th></tr></thead><tbody>${rows}</tbody></table>
     <p class="muted" style="margin:6px 0 0">손익 = 지금 칩 − (시작 칩 × (1 + 리바인 횟수)) · 자리의 R2 = 리바인 2회</p></div>`;
 }
+function sheet(inner,act){return `<div class="sheetbg" data-act="${act}"></div><div class="sheet">${inner}</div>`}
+function menuPanel(r,H){
+  const p=r.players[S.me]||{},host=S.practice||r.host===S.me;
+  return `<div class="row" style="margin:0 0 8px"><h3 style="margin:0;flex:1">☰ 메뉴</h3><button class="small" data-act="menu">닫기</button></div>
+   <div class="mgrid">
+    <button data-act="${p.sitOut?'back':'sit'}">${p.sitOut?'▶️ 다시 참여':'☕ 다음 판부터 쉬기'}</button>
+    ${S.practice?'':'<button data-act="copyinvite">💬 초대 메시지 복사</button>'}
+    <button data-act="voicepanel">🎙 목소리 바꾸기</button><button data-act="vtest">🔈 소리 테스트</button>
+    <button data-act="leave">🚪 나가기</button></div>
+   ${host?`<h3 style="margin:14px 0 6px">👑 방장 메뉴</h3>${hostBar(r,H)}`:''}
+   ${H&&H.log.length?`<h3 style="margin:14px 0 6px">📜 진행 기록</h3><div class="log">${H.log.slice(-30).reverse().map(esc).join('<br>')}</div>`:''}`;
+}
 function myPanel(r,H){
   const me=S.me,p=r.players[me];if(!p)return '';
   const ps=H&&H.ps[me];
@@ -940,23 +1030,23 @@ function myPanel(r,H){
   }
   const inHand=ps&&H.street!=='done'&&!ps.folded;
   if(p.chips===0&&!inHand){if(r.settings.rebuy!==0)h+=`<button class="primary" data-act="rebuy">🔄 리바인 하기 (+${fmt(r.settings.chips)})</button><p class="muted" style="text-align:center;margin:6px 0 0">안 누르면 관전만 해요${p.rebuys?` · 지금까지 리바인 ${p.rebuys}회`:''}</p>`}
-  else h+=`<div class="row" style="margin-top:10px"><button class="small" data-act="${p.sitOut?'back':'sit'}">${p.sitOut?'▶️ 다시 참여':'☕ 다음 판부터 쉬기'}</button></div>`;
-  if(S.voice)h+=`<div class="row" style="margin-top:8px"><button class="small" data-act="voicepanel">🎙 목소리 바꾸기</button><button class="small" data-act="vtest">🔈 소리 테스트</button></div>`;
   return h+`</div>`;
 }
 function actionBox(r,H,ps,p){
   if(S.pendingAt)return `<div class="wait">전송 중…</div>`;
-  const timer=`<div class="tbar"><div class="tfill" data-dlbar></div></div><div class="wait" style="padding:4px 0 0">⏱ <span data-dl>15</span>초 안에 결정하세요</div>`;
+  const timer=`<div class="tbar"><div class="tfill" data-dlbar></div></div>`;
   const toCall=Math.min(H.curBet-ps.bet,p.chips),max=ps.bet+p.chips;
   const pot=H.seats.reduce((a,u)=>a+H.ps[u].total,0);
   const minTo=Math.min(H.curBet+H.minRaise,max);
   const canRaise=max>H.curBet;
   if(!S.raise||S.raise<minTo||S.raise>max||S.raiseHand!==H.n+':'+H.street+':'+H.curBet){S.raise=minTo;S.raiseHand=H.n+':'+H.street+':'+H.curBet}
-  let h=timer+`<div class="acts">`;
+  const showR=canRaise&&p.chips>toCall;
+  let h=timer+`<div class="acts ${showR?'a3':''}">`;
   h+=toCall>0?`<button class="bfold" data-act="fold">폴드</button>`:`<button class="bfold" data-act="check">체크</button>`;
   h+=toCall>0?`<button class="bcall" data-act="call">${toCall>=p.chips?'올인 콜':'콜'} ${fmt(toCall)}</button>`:`<button class="bcall" data-act="check">체크 ✓</button>`;
+  if(showR)h+=`<button class="braise" data-act="raiseopen">${H.curBet===0?'벳':'레이즈'} ${S.raiseOpen?'▴':'▾'}</button>`;
   h+=`</div>`;
-  if(canRaise&&p.chips>toCall){
+  if(showR&&S.raiseOpen){
     const q=(x)=>Math.max(minTo,Math.min(max,Math.round(x)));
     const half=q(H.curBet+(pot+toCall)/2),full=q(H.curBet+pot+toCall);
     h+=`<div class="raisebox"><div class="row" style="margin:0"><b style="flex:1">${H.curBet===0?'벳':'레이즈'} <span id="rv" style="color:#ff8a3d;font-size:20px">${fmt(S.raise)}</span></b></div>
@@ -994,20 +1084,22 @@ document.addEventListener('click',e=>{
       if(!window.speechSynthesis){S.ttsBroken=true;ttsFailNotice()}
       else{S.ttsChecked=false;speak('음성 안내를 켰어요',true);toast('🔊 음성 안내 켜짐 — 안 들리면 무음 모드와 볼륨을 확인해 주세요',3500)}}
     else{try{speechSynthesis.cancel()}catch(e){}toast('🔇 음성 안내 꺼짐')}render()}
-  else if(a==='voicepanel'){S.showVoice=!S.showVoice;render()}
+  else if(a==='voicepanel'){S.showVoice=!S.showVoice;S.showMenu=false;S.showStats=false;render()}
   else if(a==='vtest'){audioUnlock();sfx('win');S.ttsChecked=false;S.ttsBroken=false;S.ttsNoticed=false;speak('소리 테스트입니다. 잘 들리나요?',true);const d=voiceDiag();toast(`음성기능 ${d.has?'있음':'없음'} · 목소리 ${d.n}개(한국어 ${d.ko}) · 효과음 ${d.audio?'가능':'불가'}`,5000)}
   else if(a==='copy')copyCode();
   else if(a==='copyinvite')copyText(inviteText(),'💬 초대 메시지 복사됨! 카톡에 붙여넣기 하세요');
-  else if(a==='stats'){S.showStats=!S.showStats;render()}
+  else if(a==='stats'){S.showStats=!S.showStats;S.showMenu=false;S.showVoice=false;render()}
+  else if(a==='menu'){S.showMenu=!S.showMenu;S.showStats=false;S.showVoice=false;render()}
+  else if(a==='raiseopen'){S.raiseOpen=!S.raiseOpen;render()}
   else if(a==='botrebuy'){if(S.practice)hq(()=>{HR.order.forEach(u=>{const p=HR.players[u];if(p.bot&&p.chips===0){p.chips=HR.settings.chips;p.rebuys=(p.rebuys||0)+1;if(HR.hand)hlog(HR.hand,`🔄 ${p.name} 리바인 · ${p.rebuys}번째`)}});commit()})}
   else if(a==='join')joinRoom(($('#codeIn')||{}).value);
-  else if(a==='leave')leaveRoom();
+  else if(a==='leave'){S.showMenu=false;leaveRoom()}
   else if(a==='deal'){if(S.practice)hq(hostDeal);else send({t:'host',op:'deal'})}
   else if(a==='pause'){if(S.practice)hq(()=>{HR.paused=!HR.paused;commit()});else send({t:'host',op:'pause'})}
   else if(a==='kick'){if(S.practice)hq(()=>{const H=HR.hand;if(H&&H.toAct){forceFold(HR,HP,H.toAct,'시간 초과');commit()}});else send({t:'host',op:'kick'})}
   else if(a==='void'){if(S.practice)hq(()=>{voidHand(HR);commit()});else send({t:'host',op:'void'})}
   else if(['fold','check','call','allin','sit','back','rebuy','show'].includes(a))act(a);
-  else if(a==='raise')act('raise',{to:S.raise});
+  else if(a==='raise'){S.raiseOpen=false;act('raise',{to:S.raise})}
 });
 document.addEventListener('input',e=>{if(e.target.id==='rr'){S.raise=+e.target.value;const rv=$('#rv');if(rv)rv.textContent=fmt(S.raise)}});
 document.addEventListener('pointerdown',e=>{if(e.target.id==='rr')S.dragging=true});

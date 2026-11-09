@@ -10,6 +10,7 @@ const E = require('./engine.js');
 const PORT = process.env.PORT || 3000;
 const PAGE = path.join(__dirname, 'public', 'index.html');
 const MAX_PLAYERS = 10;
+const ICON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3c4"/><stop offset=".45" stop-color="#d4a63c"/><stop offset="1" stop-color="#8a6416"/></linearGradient><radialGradient id="f" cx=".5" cy=".4" r=".7"><stop offset="0" stop-color="#1c7a55"/><stop offset="1" stop-color="#04261a"/></radialGradient></defs><rect width="512" height="512" rx="112" fill="#0b0a0d"/><rect x="28" y="28" width="456" height="456" rx="92" fill="url(#f)" stroke="url(#g)" stroke-width="14"/><text x="256" y="300" text-anchor="middle" font-family="Georgia,serif" font-size="230" font-weight="bold" fill="url(#g)">♠</text><text x="256" y="430" text-anchor="middle" font-family="Georgia,serif" font-size="74" font-weight="bold" fill="url(#g)" letter-spacing="6">HOLD'EM</text></svg>`;
 const NEXT_HAND_MS = 9000;
 const ROOM_IDLE_MS = 3 * 60 * 60 * 1000; // 아무도 없이 3시간 지나면 방 정리
 
@@ -18,6 +19,17 @@ const rooms = new Map(); // code -> { r, priv, socks: Map<id, ws>, turnT, nextT,
 /* ---------- HTTP ---------- */
 const server = http.createServer((req, res) => {
   if (req.url === '/healthz') { res.writeHead(200); res.end('ok'); return; }
+  if (req.url === '/manifest.json') {
+    res.writeHead(200, { 'content-type': 'application/manifest+json' });
+    res.end(JSON.stringify({ name: '친구끼리 홀덤', short_name: '친구홀덤', start_url: '/', display: 'fullscreen', orientation: 'portrait', background_color: '#07070a', theme_color: '#07070a',
+      icons: [{ src: '/icon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any' }] }));
+    return;
+  }
+  if (req.url === '/icon.svg') {
+    res.writeHead(200, { 'content-type': 'image/svg+xml', 'cache-control': 'public, max-age=86400' });
+    res.end(ICON);
+    return;
+  }
   fs.readFile(PAGE, (err, buf) => {
     if (err) { res.writeHead(500); res.end('page error'); return; }
     res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-cache' });
