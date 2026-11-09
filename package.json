@@ -1,0 +1,9 @@
+{
+  "name": "friends-holdem",
+  "version": "1.0.0",
+  "description": "친구끼리 홀덤 - 로그인 없이 링크로 같이 하는 텍사스 홀덤 (최대 15명)",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" },
+  "dependencies": { "ws": "^8.18.0" }
+}
