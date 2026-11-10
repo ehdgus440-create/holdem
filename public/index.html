@@ -550,17 +550,21 @@ function clone(o){return JSON.parse(JSON.stringify(o))}
 S.me=ls('h_id')||('p'+Math.random().toString(36).slice(2,12)+Date.now().toString(36));ls('h_id',S.me);
 S.net='connecting';S.skew=0;
 function send(m){try{if(S.ws&&S.ws.readyState===1){S.ws.send(JSON.stringify(m));return true}}catch(e){}return false}
+// 무료 서버는 15분간 들어오는 메시지가 없으면 잠들어서 방이 사라져요 → 열려 있는 동안 40초마다 신호 보내기
+setInterval(()=>{if(S.net==='on')send({t:'ping'})},40000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&S.net==='on')send({t:'ping'});if(!document.hidden&&S.net==='off')wsConnect()});
 function wsConnect(){
+  if(S.ws&&(S.ws.readyState===0||S.ws.readyState===1))return;
   let ws;try{ws=new WebSocket((location.protocol==='https:'?'wss://':'ws://')+location.host+'/ws')}catch(e){S.net='off';render();return}
   S.ws=ws;S.net='connecting';
   const slow=setTimeout(()=>{if(S.net==='connecting'){S.netSlow=true;render()}},3000);
   ws.onopen=()=>{clearTimeout(slow);S.net='on';S.netSlow=false;
     send({t:'hello',id:S.me,name:S.name});
-    if(S.code&&!S.practice)send({t:'join',code:S.code,name:S.name});
+    if(S.code&&!S.practice)send({t:'join',code:S.code,name:S.name,snap:S.room&&S.room.code===S.code?S.room:null});
     else if(S.autoJoin&&S.name){send({t:'join',code:S.autoJoin,name:S.name,silent:true});S.autoJoin=null}
     render()};
   ws.onmessage=e=>{let m;try{m=JSON.parse(e.data)}catch(x){return}onMsg(m)};
-  ws.onclose=()=>{clearTimeout(slow);if(S.ws!==ws)return;S.net='off';render();setTimeout(wsConnect,1500)};
+  ws.onclose=()=>{clearTimeout(slow);if(S.ws!==ws)return;S.net='off';S.ws=null;render();setTimeout(wsConnect,1500)};
 }
 function onMsg(m){
   if(m.t==='state'){
@@ -886,7 +890,7 @@ function topBar(r){
   const H=r.hand;
   return `<div class="top"><span class="codebox">${S.practice?'<b style="font-size:15px;letter-spacing:0">🤖 연습</b>':`<span data-act="copy" style="cursor:pointer">방<b>${esc(r.code)}</b>📋</span>`}</span>
     <button class="topbtn" data-act="voice">${S.voice?'🔊':'🔇'}</button><button class="topbtn" data-act="stats">📊</button><button class="topbtn" data-act="menu">☰</button>
-    <span class="t">${H?`${H.n}번째 판 · 블라인드 ${fmt(H.sbA)}/${fmt(H.bbA)}`:''}${blindInfo(r)}</span></div>`;
+    ${!S.practice&&S.net!=='on'?'<span class="t" style="color:#ffb347">🟡 서버 다시 연결 중… 잠시만요</span>':''}<span class="t">${H?`${H.n}번째 판 · 블라인드 ${fmt(H.sbA)}/${fmt(H.bbA)}`:''}${blindInfo(r)}</span></div>`;
 }
 function blindInfo(r){
   const m=+r.settings.upMin||0;if(!m)return '<br><span class="bsep"></span>📌 블라인드 고정';if(!r.startedAt)return '';

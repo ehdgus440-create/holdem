@@ -165,14 +165,19 @@ function onCreate(ws, m) {
   r.order.push(ws.id);
   const room = { r, priv: null, socks: new Map(), turnT: null, nextT: null, emptySince: 0 };
   rooms.set(code, room);
+  console.log(`[방 생성] ${code}`);
   attach(ws, code);
   broadcast(room, { [ws.id]: { created: true } });
 }
 
 function onJoin(ws, m) {
   const code = clip(m.code, 4).toUpperCase();
-  const room = rooms.get(code);
-  if (!room) return sendTo(ws, { t: 'err', msg: `${code} 방을 찾을 수 없어요. 코드를 확인하거나, 방이 오래돼서 사라졌다면 새로 만들어 주세요.`, home: true, silent: !!m.silent });
+  let room = rooms.get(code);
+  if (!room && m.snap && typeof m.snap === 'object' && m.snap.code === code && m.snap.players && m.snap.players[ws.id]) room = restoreRoom(code, m.snap, ws.id);
+  if (!room) {
+    console.log(`[join 실패] 없는 방 ${code} (현재 방: ${[...rooms.keys()].join(',') || '없음'})`);
+    return sendTo(ws, { t: 'err', msg: `${code} 방을 찾을 수 없어요. 코드를 다시 확인해 주세요. (서버가 재시작되면 방이 사라질 수 있어요 — 그럴 땐 방장이 새로 만들어 주세요)`, home: true, silent: !!m.silent });
+  }
   const { r } = room;
   const name = clip(m.name, 10) || ws.name || '플레이어';
   ws.name = name;
@@ -190,6 +195,24 @@ function onJoin(ws, m) {
   attach(ws, code);
   if (!room.socks.has(r.host) || r.players[r.host].left) r.host = ws.id;
   update(room);
+}
+
+// 서버가 재시작돼서 방이 사라졌을 때, 다시 접속한 사람의 화면에 남아 있던 방 정보로 복구 (진행 중이던 판은 무효 처리하고 칩 환불)
+function restoreRoom(code, snap, byId) {
+  try {
+    const r = JSON.parse(JSON.stringify(snap));
+    if (!Array.isArray(r.order) || typeof r.players !== 'object' || !r.settings) return null;
+    r.order = r.order.filter(u => r.players[u]).slice(0, MAX_PLAYERS + 5);
+    for (const u of r.order) { const p = r.players[u]; p.chips = Math.max(0, Math.floor(+p.chips || 0)); p.off = true; p.name = clip(p.name, 10) || '플레이어'; }
+    if (r.hand && r.hand.street !== 'done') E.voidHand(r);
+    if (r.hand) E.hlog(r.hand, '🔧 서버가 다시 켜져서 방을 복구했어요');
+    r.seqs = {}; r.paused = false;
+    if (!r.players[r.host]) r.host = byId;
+    const room = { r, priv: null, socks: new Map(), turnT: null, nextT: null, emptySince: 0 };
+    rooms.set(code, room);
+    console.log(`[복구] 방 ${code} (${r.order.length}명)`);
+    return room;
+  } catch (e) { console.error('restore fail', e); return null; }
 }
 
 function onAct(ws, a) {
@@ -244,6 +267,7 @@ wss.on('connection', ws => {
     try {
       if (m.t === 'create') onCreate(ws, m);
       else if (m.t === 'join') onJoin(ws, m);
+      else if (m.t === 'ping') sendTo(ws, { t: 'pong' });
       else if (m.t === 'leave') { if (ws.code) detach(ws, true); sendTo(ws, { t: 'left' }); }
       else if (m.t === 'act') onAct(ws, m.a);
       else if (m.t === 'host') onHost(ws, m);
