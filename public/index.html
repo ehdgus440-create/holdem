@@ -438,6 +438,10 @@ body.ingame .pc.big .s{font-size:16px}
 body.ingame .acts button{padding:6px 2px;min-height:32px}
 body.ingame .emotes button{padding:4px 6px}
 }
+
+/* Keep every one of the 10 seats and its hole cards inside the phone viewport. */
+body.ingame .tw .rail{top:11%;bottom:11%;left:12%;right:12%}
+@media(max-height:740px){body.ingame .tw .rail{top:12%;bottom:12%}}
 </style>
 </head>
 <body>
@@ -1085,7 +1089,7 @@ function tableView(r){
     </div></div></div>`;
   seats.forEach((u,i)=>{
     const a=Math.PI/2+i*2*Math.PI/N,cx=Math.cos(a),cy=Math.sin(a);
-    const x=50+46*cx,y=50+45.5*cy;
+    const x=50+41*cx,y=50+39*cy;
     const p=r.players[u],ps=H&&H.ps[u];
     const turn=H&&H.toAct===u,won=winSet.has(u)&&H.street==='done';
     let cards='',status='';
