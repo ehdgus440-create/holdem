@@ -971,18 +971,19 @@ function homeView(){
     <input id="nameIn" maxlength="10" placeholder="게임에서 사용할 닉네임" value="${esc(S.name)}">
     <button class="lux-mode" data-act="joinopen"><span class="lux-mode-icon">♟</span><span class="lux-mode-title">게스트<span class="lux-mode-sub">로그인 없이 친구 방 입장</span></span><span class="lux-chevron">›</span></button>
     <button class="lux-mode practice" data-act="practice"><span class="lux-mode-icon">🂡</span><span class="lux-mode-title">게스트와 연습 · 10명<span class="lux-mode-sub">나 1명과 컴퓨터 게스트 9명</span></span><span class="lux-chevron">›</span></button>
-    <button class="lux-mode create" data-act="create"><span class="lux-mode-icon">♛</span><span class="lux-mode-title">방 만들기<span class="lux-mode-sub">친구들과 플레이할 방 생성</span></span><span class="lux-chevron">›</span></button>
+    <button class="lux-mode create" data-act="createOptions"><span class="lux-mode-icon">♛</span><span class="lux-mode-title">방 만들기<span class="lux-mode-sub">시작 칩 · 블라인드 · 리바인 설정 후 생성</span></span><span class="lux-chevron">›</span></button>
     <button class="lux-mode" data-act="joinopen"><span class="lux-mode-icon">♣</span><span class="lux-mode-title">친구 방 입장<span class="lux-mode-sub">4자리 방 코드로 참가</span></span><span class="lux-chevron">›</span></button>
     ${(S.showJoin||S.joinCode)?`<div class="lux-join"><label for="codeIn">친구 방 코드</label><div class="row"><input id="codeIn" maxlength="4" placeholder="ABCD" style="text-transform:uppercase;letter-spacing:4px;text-align:center" value="${esc(S.joinCode||'')}"><button data-act="join" class="primary" style="flex:.62;margin:0">입장</button></div></div>`:''}
     <button class="lux-share" data-act="copyapp">🔗 친구에게 앱 링크 공유</button>
     <div class="lux-net">${offline}</div>
-    ${S.showHomeSettings?`<div class="lux-settings">
-      <b>⚙ 게임 설정</b>
+    ${S.showHomeSettings?`<div class="lux-settings" id="createOptions">
+      <b>⚙ ${S.showCreateOptions?'방 만들기 옵션':'게임 설정'}</b>
       <label>시작 칩</label>${opt('chips',[100000,200000,300000,500000,1000000],['10만','20만','30만','50만','100만'])}
       <label>리바인</label>${opt('rebuy',[1,0],['허용','불가'])}
       <label>블라인드</label>${opt('mode',[0,1],['6분마다 자동 업','고정'])}
       ${st.mode?`<label>고정 블라인드</label>${opt('fix',[400,1000,2000,4000,10000,20000,50000,100000],[400,1000,2000,4000,10000,20000,50000,100000].map(bl))}`:''}
       <label>연습 게스트 수</label>${opt('bots',[1,2,3,4,5,6,7,8,9],[1,2,3,4,5,6,7,8,9].map(n=>n+'명'))}
+      ${S.showCreateOptions?'<button class="primary" data-act="create" style="width:100%;margin:10px 0 5px">♛ 이 설정으로 방 만들기</button>':''}
       <button class="lux-share" data-act="homeSettings">설정 닫기</button>
     </div>`:''}
     <div class="lux-hint">친구끼리 게임 링크와 방 코드를 보내면 됩니다. 같은 Render 주소로 접속해 같은 방에 입장하세요.</div>
@@ -1203,7 +1204,8 @@ document.addEventListener('click',e=>{
   const rq=e.target.closest('[data-rq]');if(rq){S.raise=+rq.dataset.rq;const rr=$('#rr');if(rr)rr.value=S.raise;const rv=$('#rv');if(rv)rv.textContent=fmt(S.raise);return}
   const b=e.target.closest('[data-act]');if(!b||b.disabled)return;
   const a=b.dataset.act;S.err='';
-  if(a==='homeSettings'){const nick=$('#nameIn');if(nick)S.name=nick.value.trim().slice(0,10);S.showHomeSettings=!S.showHomeSettings;render()}
+  if(a==='homeSettings'){const nick=$('#nameIn');if(nick)S.name=nick.value.trim().slice(0,10);S.showHomeSettings=!S.showHomeSettings;S.showCreateOptions=false;render()}
+  else if(a==='createOptions'){const nick=$('#nameIn');if(nick)S.name=nick.value.trim().slice(0,10);S.showCreateOptions=true;S.showHomeSettings=true;render();const panel=$('#createOptions');if(panel)panel.scrollIntoView({behavior:'smooth',block:'nearest'})}
   else if(a==='joinopen'){const nick=$('#nameIn');if(nick)S.name=nick.value.trim().slice(0,10);S.showJoin=!S.showJoin;render()}
   else if(a==='copyapp')copyText(location.origin+'/', '앱 주소가 복사됐어요. 친구에게 보내세요.');
   else if(a==='full'){try{if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen()}catch(e){toast('전체화면을 지원하지 않는 브라우저입니다')}}
