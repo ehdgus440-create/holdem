@@ -670,7 +670,7 @@ function scheduleNext(){
   if(S.practice&&HR&&HR.hand&&HR.hand.street==='done'&&HR.hand._talked!==1){HR.hand._talked=1;const w=Object.keys(HR.hand.result.won||{})[0];if(w&&HR.players[w].bot&&Math.random()<.5)setTimeout(()=>localBubble(w,'😎 감사합니다~'),400);else if(w===S.me&&Math.random()<.5){const b=HR.hand.seats.find(v=>HR.players[v].bot);if(b)setTimeout(()=>localBubble(b,'😭 망했다'),400)}}
   clearTimeout(S.nextT);const H=HR&&HR.hand;
   if(!HR||!HR.started||HR.paused||!H||H.street!=='done')return;
-  const n=H.n,wait=Math.max(1500,(H.doneAt||0)+9000-Date.now());
+  const n=H.n,wait=Math.max(1500,(H.doneAt||0)+6000-Date.now());
   S.nextT=setTimeout(()=>hq(async()=>{if(HR&&HR.hand&&HR.hand.n===n&&HR.hand.street==='done'&&!HR.paused&&HR.order.filter(u=>canPlay(HR,u)).length>=2)await hostDeal()}),wait);
 }
 
@@ -681,7 +681,7 @@ function localBubble(u,m){const t=Date.now();S.bubbles[u]={m,t};render();setTime
 function startPractice(){
   const i=$('#nameIn');S.name=((i&&i.value.trim())||S.name||'나').slice(0,10);ls('h_name',S.name);
   leaveSubs();S.practice=true;S.err='';
-  const st=S.create||{chips:100000,mode:0,fix:400,bots:1};
+  const st=S.create||{chips:100000,mode:0,fix:400,bots:9};
   const bb=st.mode?(st.fix||400):400;
   HR={code:'PRAC',host:S.me,created:Date.now(),updated:Date.now(),settings:{chips:st.chips,sb:bb/2,bb,upMin:st.mode?0:6,maxBb:MAX_BB,rebuy:st.rebuy===0?0:1},players:{},order:[],seqs:{},hand:null,handNo:0,started:true,paused:false};
   HR.players[S.me]={name:S.name,chips:st.chips,rebuys:0,sitOut:false,left:false};HR.order.push(S.me);
@@ -838,7 +838,7 @@ const FIXED=[400,1000,2000,4000,10000,20000,50000,100000];
 const LADDER=(()=>{const a=[];let b=400;while(b<MAX_BB){a.push(b);b*=2}a.push(MAX_BB);return a})();
 const bl=b=>{const k=x=>x>=10000?(x/10000)+'만':fmt(x);return k(b/2)+'/'+k(b)};
 function homeView(){
-  const st=S.create||(S.create={chips:100000,mode:0,fix:400,bots:1,rebuy:1});
+  const st=S.create||(S.create={chips:100000,mode:0,fix:400,bots:9,rebuy:1});
   const opt=(k,vals,lab)=>`<div class="sel">${vals.map((v,i)=>`<button class="${st[k]==v?'on':''}" data-set="${k}" data-v="${v}">${lab?lab[i]:v}</button>`).join('')}</div>`;
   return `<div class="hero"><div class="logo">🂡🂮</div><h1>친구끼리 홀덤</h1><p>최대 10명 · 각자 폰으로 접속 · 칩은 가짜 포인트</p></div>
   ${S.err?`<div class="card"><div class="err" style="margin:0">${esc(S.err)}</div></div>`:''}
@@ -973,7 +973,7 @@ function resultBanner(r,H){
   else if(main[0]&&main[0].w.length>1)title='🤝 무승부! 팟 나눠 갖기';
   else title=`🏆 ${esc(nm(main[0]?main[0].w[0]:wins[0]))} 승리!`;
   // 반전 포인트: 가장 약했던 프리플랍 카드가 이겼을 때 등
-  const left=Math.max(0,Math.ceil(((H.doneAt||0)+9000-Date.now())/1000));
+  const left=Math.max(0,Math.ceil(((H.doneAt||0)+6000-Date.now())/1000));
   const fresh=S.bannerN!==H.n;S.bannerNext=H.n;const conf=!fresh?'':Array.from({length:22},(_,i)=>`<i style="left:${(i*4.6+(i*7)%3)%100}%;background:${['#f5d27a','#fff3c4','#ff3355','#d4a63c','#ffffff'][i%5]};animation-delay:${(i%7)*.12}s"></i>`).join('');
   return `<div class="banner${fresh?' fresh':''}"><div class="confetti">${conf}</div><span class="bt">${title}</span><small>${lines.join('<br>')}</small>${r.paused?'':`<small style="opacity:.8">잠시 후 다음 판이 시작돼요</small>`}</div>`;
 }
