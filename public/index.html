@@ -405,6 +405,39 @@ body.ingame .pc.big{background:linear-gradient(140deg,#fff,#e8e4d6);border:1px s
 body.ingame .mine .bfold{background:linear-gradient(#393a3e,#1a1d20);color:#f5f4f0;border:1px solid #c4ab8180}body.ingame .mine .bcall{background:linear-gradient(#0aa18a,#075344);color:#fff1d9;border:1px solid #4bd5be81}body.ingame .mine .braise{background:linear-gradient(#f3ca79,#ba8033);color:#2f1c08;border:1px solid #f3d68f}body.ingame .mine .ballin{background:linear-gradient(#f25759,#a92730)}body.ingame .mine .raisebox{background:#061e20;border:1px solid #b4935d90}body.ingame .mine .quick button{background:#0e2727;border:1px solid #ad905c9c;color:#e8d6a8}body.ingame .mine .acts button{box-shadow:inset 0 2px 1px #fff3,0 3px 5px #0009;font-weight:900}body.ingame .emotes button{background:#092523;border:1px solid #c4a05e65;color:#f2c77c}
 @media(max-width:360px){.lux-home{padding:10px}.lux-suits{font-size:20px}.lux-cards-logo{height:82px}.lux-logo-card{width:51px;height:68px;font-size:28px}.lux-logo-coin{width:46px;height:46px;line-height:43px;top:41px}.lux-home h1{font-size:25px}.lux-mode{min-height:51px;padding:8px}.lux-mode .lux-mode-title{font-size:14px}body.ingame .tw .pc.bd{width:29px;height:43px}body.ingame .tw .pc.bd .r{font-size:16px}}
 @media(max-height:620px) and (orientation:portrait){.lux-home{min-height:0}.lux-suits{padding:2px 0;font-size:20px}.lux-cards-logo{height:65px}.lux-logo-card{width:43px;height:55px;font-size:25px}.lux-logo-coin{width:37px;height:37px;line-height:35px;top:30px;font-size:21px}.lux-question{margin:5px}.lux-mode{min-height:44px;padding:6px}.lux-mode .lux-mode-title{font-size:13px}.lux-home input{height:34px}}
+
+/* Phone single-screen fix: respect the visible browser viewport and prevent stale scroll offsets. */
+html:has(body.ingame){height:100%;overflow:hidden;overscroll-behavior:none}
+body.ingame{position:fixed!important;inset:0!important;width:100%;height:var(--game-vh,100dvh)!important;min-height:0!important;overflow:hidden!important;margin:0!important}
+body.ingame #app{box-sizing:border-box;width:100%;height:100%!important;min-height:0;max-height:100%;overflow:hidden;display:flex;flex-direction:column;gap:3px;padding:calc(3px + env(safe-area-inset-top)) 7px calc(3px + env(safe-area-inset-bottom))}
+body.ingame .top{flex:0 0 auto;min-height:0;gap:3px;padding:3px 6px}
+body.ingame .top .t{font-size:10px;line-height:1.1}
+body.ingame .topbtn{padding:4px 7px;font-size:13px;min-height:30px}
+body.ingame .tablearea{flex:1 1 0;min-height:0;overflow:hidden}
+body.ingame .tw{inset:10px 2px 8px!important;min-height:0}
+body.ingame .tw .rail{top:7%;bottom:7%;left:10%;right:10%;padding:6px}
+body.ingame .tw .center{top:51%}
+body.ingame .mine{flex:0 0 auto;min-height:0;margin:1px 0 0;padding:6px 9px;border-radius:13px}
+body.ingame .pc.big{width:40px;height:54px}
+body.ingame .pc.big .r{font-size:23px}
+body.ingame .pc.big .s{font-size:19px}
+body.ingame .mystr b{font-size:17px}
+body.ingame .mystr .muted{font-size:11px}
+body.ingame .acts{margin-top:3px;gap:4px}
+body.ingame .acts button{padding:9px 3px;font-size:14px;min-height:38px}
+body.ingame .emotes{flex:0 0 auto;min-height:0;margin:2px 0 0;padding:0 0 2px;scrollbar-width:none}
+body.ingame .emotes::-webkit-scrollbar{display:none}
+body.ingame .emotes button{padding:5px 8px;white-space:nowrap;font-size:11px}
+@media(max-height:740px){
+body.ingame .tw{inset:4px 0 4px!important}
+body.ingame .tw .rail{top:9%;bottom:9%}
+body.ingame .mine{padding:4px 7px}
+body.ingame .pc.big{width:34px;height:46px}
+body.ingame .pc.big .r{font-size:19px}
+body.ingame .pc.big .s{font-size:16px}
+body.ingame .acts button{padding:6px 2px;min-height:32px}
+body.ingame .emotes button{padding:4px 6px}
+}
 </style>
 </head>
 <body>
@@ -925,6 +958,14 @@ function patchGameMarkup(app,html){
   next.innerHTML=html;
   patchGameChildren(app,next.content);
 }
+function syncGameViewport(){
+  const vv=window.visualViewport;
+  const h=Math.round(vv?vv.height:window.innerHeight);
+  if(h>0)document.documentElement.style.setProperty('--game-vh',h+'px');
+}
+syncGameViewport();
+window.addEventListener('resize',syncGameViewport,{passive:true});
+if(window.visualViewport)window.visualViewport.addEventListener('resize',syncGameViewport,{passive:true});
 function render(){
   voiceCheck();
   if(S.dragging)return;
