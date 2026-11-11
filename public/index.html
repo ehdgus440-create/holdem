@@ -1003,7 +1003,10 @@ function lobbyView(r){
     ${host?`<button class="primary" data-act="deal" ${act.length<2?'disabled':''}>${act.length<2?'2명 이상 모이면 시작할 수 있어요':'🃏 게임 시작!'}</button>`:`<p class="wait">방장이 게임을 시작하길 기다리는 중…</p>`}
   </div>
   ${S.err?`<div class="card"><div class="err" style="margin:0">${esc(S.err)}</div></div>`:''}
-  ${emoteBar()}`;
+  ${emoteBar()}
+  ${S.showStats?sheet(statsPanel(r,null),'stats'):''}
+  ${S.showVoice?sheet(voicePanel(),'voicepanel'):''}
+  ${S.showMenu?sheet(menuPanel(r,null),'menu'):''}`;
 }
 function topBar(r){
   const H=r.hand;

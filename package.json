@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node --test tests/multiplayer-10.test.js",
+    "test": "node --test tests/*.test.js",
     "postinstall": "npm test"
   },
   "engines": {
