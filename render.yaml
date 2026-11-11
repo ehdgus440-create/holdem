@@ -5,4 +5,6 @@ services:
     plan: free
     buildCommand: npm install
     startCommand: npm start
+    branch: main
+    autoDeployTrigger: commit
     healthCheckPath: /healthz
