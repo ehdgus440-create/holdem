@@ -822,7 +822,7 @@ function voiceCheck(){
 /* 차례/베팅 갱신 시 게임판 전체 innerHTML 교체를 피함.
    카드 노드를 재사용해 불필요한 재등장·깜빡임을 막습니다. */
 function gameNodeKey(node){
-  if(node&&node.nodeType===1)return node.getAttribute('data-seat')||node.getAttribute('data-bet')||node.getAttribute('data-dealer');
+  if(node&&node.nodeType===1){for(const name of ['data-seat','data-bet','data-dealer']){const v=node.getAttribute(name);if(v!==null)return name+':'+v;}}
   return null;
 }
 function sameGameNode(a,b){
