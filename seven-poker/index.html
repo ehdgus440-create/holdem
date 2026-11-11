@@ -59,6 +59,44 @@ body{background:radial-gradient(ellipse at 50% 25%,#203766 0%,#111f45 52%,#060b1
 @media(max-height:680px){.table{min-height:290px}.seat .cards{min-height:32px}.seat .card{height:28px}.seat .avatar{width:29px;height:29px}.seat{grid-template-columns:29px 1fr}.myhand .card{height:38px}.casino-choose .choices .card{height:70px}}
 @media(orientation:landscape){.table{min-height:clamp(235px,54dvh,560px)}.casino-choose{width:min(560px,56%);top:54%}.casino-choose .choices .card{height:clamp(65px,14vh,125px)}.actions{grid-template-columns:repeat(8,1fr)}.myhand .card{height:40px;width:31px}.seat .card{height:33px}.seat .cards{min-height:33px}}
 
+
+/* Enlarged player panels and roughly 2x-sized opponent cards */
+.table{min-height:620px}
+.seat{width:clamp(225px,30vw,340px);padding:9px 10px;grid-template-columns:54px minmax(0,1fr);gap:2px 8px;border:2px solid #d3a653;border-radius:17px;box-shadow:0 0 13px #f5bf5760,0 9px 18px #000a}
+.seat .avatar{width:52px;height:52px;font-size:29px}
+.seat .name{font-size:15px}
+.seat .small{font-size:12px}
+.seat .cards{grid-column:1/3;display:flex;justify-content:flex-start;align-items:center;min-height:80px;padding:2px 0 0 0;gap:0;overflow:visible}
+.seat .cards .card{flex:0 0 auto;width:60px;height:83px;font-size:21px;letter-spacing:-1px}
+.seat .cards .card+.card{margin-left:-29px}
+.seat .cards .card.back{border:2px solid #f0ede7}
+.seat.me{border-color:#ffd16c}
+@media(max-width:620px){
+ .table{min-height:525px}
+ .seat{width:clamp(165px,47vw,210px);padding:7px;grid-template-columns:42px minmax(0,1fr);gap:1px 5px;border-radius:14px}
+ .seat .avatar{width:42px;height:42px;font-size:24px}
+ .seat .name{font-size:12px}
+ .seat .small{font-size:10px}
+ .seat .cards{min-height:63px;gap:0;padding:1px 0 0}
+ .seat .cards .card{width:42px;height:62px;font-size:16px}
+ .seat .cards .card+.card{margin-left:-21px}
+ .center{top:40%}
+}
+@media(max-width:390px){
+ .seat{width:calc(50% - 5px);padding:5px}
+ .seat .cards .card{width:40px;height:60px}
+ .seat .cards .card+.card{margin-left:-21px}
+}
+@media(max-height:680px) and (orientation:portrait){.table{min-height:510px}.seat .cards{min-height:62px}.seat .cards .card{height:60px}}
+@media(orientation:landscape){
+ .table{min-height:440px}
+ .seat{width:clamp(210px,28vw,300px);grid-template-columns:46px 1fr;padding:5px 8px}
+ .seat .avatar{width:44px;height:44px;font-size:24px}
+ .seat .cards{min-height:63px}
+ .seat .cards .card{width:46px;height:65px;font-size:17px}
+ .seat .cards .card+.card{margin-left:-21px}
+}
+
 </style></head><body><main id="app" class="app"></main><div id="toast" class="toast"></div>
 <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script><script>
 (()=>{'use strict';
@@ -119,7 +157,7 @@ function cardHtml(c,hidden,extra=''){if(hidden||!c)return '<span class="card bac
 function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function publicState(forId){if(!game)return null;return {...game,deck:[],players:game.players.map(p=>({...p,cards:p.cards.map((c,i)=>showResult||p.id===forId?c:(i===p.choice||i>=3&&i<=5)?c:null)}))}}
 function broadcast(){if(role==='host')Object.entries(connections).forEach(([id,c])=>{if(c.open)try{c.send({type:'state',state:publicState(id)})}catch(e){}});view=publicState(myId)}
-function drawPlayers(g){let mine=g.players.find(p=>p.id===myId),others=g.players.filter(p=>p.id!==myId),positions=others.length===1?[[50,12]]:others.length===2?[[17,18],[83,18]]:others.length===3?[[18,17],[81,17],[81,76]]:[[18,17],[82,17],[18,75],[82,75]];return others.map((p,i)=>{let [x,y]=positions[i]||[50,10];let icons=['🧑🏻','👩🏻','👨🏻','😺','👩🏽'];return '<div class="seat '+(g.turn===p.id?'turn ':'')+(p.fold?'fold':'')+'" style="left:'+x+'%;top:'+y+'%"><div class="avatar">'+(p.bot?'🤖':icons[i%icons.length])+'</div><div class="name">'+escapeHtml(p.name)+'</div><div class="small">🪙 '+money(p.stack)+(p.fold?' · 다이':'')+'</div><div class="cards">'+p.cards.map((c,j)=>cardHtml(c,!c)).join('')+'</div><div class="small">베팅 '+money(p.bet)+'</div></div>'}).join('')+(mine?'<div class="seat me '+(g.turn===mine.id?'turn ':'')+(mine.fold?'fold':'')+'" style="left:50%;top:92%"><div class="avatar">😎</div><div class="name">나 · '+escapeHtml(mine.name)+'</div><div class="small">🪙 '+money(mine.stack)+' | 베팅 '+money(mine.bet)+'</div></div>':'')}
+function drawPlayers(g){let mine=g.players.find(p=>p.id===myId),others=g.players.filter(p=>p.id!==myId),positions=others.length===1?[[50,15]]:others.length===2?[[26,18],[74,18]]:others.length===3?[[26,17],[74,17],[74,56]]:[[26,17],[74,17],[26,56],[74,56]];return others.map((p,i)=>{let [x,y]=positions[i]||[50,10];let icons=['🧑🏻','👩🏻','👨🏻','😺','👩🏽'];return '<div class="seat '+(g.turn===p.id?'turn ':'')+(p.fold?'fold':'')+'" style="left:'+x+'%;top:'+y+'%"><div class="avatar">'+(p.bot?'🤖':icons[i%icons.length])+'</div><div class="name">'+escapeHtml(p.name)+'</div><div class="small">🪙 '+money(p.stack)+(p.fold?' · 다이':'')+'</div><div class="cards">'+p.cards.map((c,j)=>cardHtml(c,!c)).join('')+'</div><div class="small">베팅 '+money(p.bet)+'</div></div>'}).join('')+(mine?'<div class="seat me '+(g.turn===mine.id?'turn ':'')+(mine.fold?'fold':'')+'" style="left:50%;top:88%"><div class="avatar">😎</div><div class="name">나 · '+escapeHtml(mine.name)+'</div><div class="small">🪙 '+money(mine.stack)+' | 베팅 '+money(mine.bet)+'</div></div>':'')}
 function render(){let g=role==='client'?view:publicState(myId);if(!g){home();return}let mine=g.players.find(p=>p.id===myId);let choice=g.stage===0&&mine&&!mine.fold&&mine.choice===-1;let yourTurn=mine&&g.turn===myId&&!g.waiting;let call=mine?Math.max(0,Math.max(...g.players.filter(p=>!p.fold).map(p=>p.bet),0)-mine.bet):0;let raisesAvailable=g.raises<(g.stage===4?1:2);let canRaise=yourTurn&&raisesAvailable&&mine.stack>call;let pot=g.players.reduce((s,p)=>s+p.total,0);
 let chooseHtml=choice?'<div class="casino-choose"><h2>🃏 오픈할 카드를 선택하세요!</h2><div class="goldline"></div><div class="choices">'+mine.cards.slice(0,3).map((c,i)=>'<button data-pick="'+i+'" aria-label="'+(i+1)+'번째 카드 공개">'+cardHtml(c,false)+'</button>').join('')+'</div><div class="small">공개할 카드 한 장을 터치하세요</div></div>':'';
 let actions=[['die','♠ 다이'],['check','◎ 체크'],['call','○ 콜 '+money(call)],['ping','◉ 삥'],['double','▥ 따당'],['quarter','◴ 쿼터'],['half','◐ 하프'],['full','♠ 맥스']].map(([a,label])=>'<button class="btn '+(a==='die'?'danger':a==='call'?'secondary':'')+'" data-act="'+a+'" '+(!(yourTurn&&(a==='die'||a==='check'&&call===0||a==='call'&&call>0||['ping','double','quarter','half','full'].includes(a)&&canRaise))?'disabled':'')+'>'+label+'</button>').join('');
