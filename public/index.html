@@ -819,6 +819,51 @@ function voiceCheck(){
   if(won)sfx('win');else if(myturn)sfx('turn');else if(p.n!==H.n)sfx('deal');else if(say.length)sfx('chip');
   if(say.length)speak(say.join('. '));
 }
+/* 차례/베팅 갱신 시 게임판 전체 innerHTML 교체를 피함.
+   카드 노드를 재사용해 불필요한 재등장·깜빡임을 막습니다. */
+function sameGameNode(a,b){
+  return a&&b&&a.nodeType===b.nodeType&&(a.nodeType!==1||a.tagName===b.tagName);
+}
+function patchGameNode(oldNode,newNode){
+  if(oldNode.nodeType!==1){
+    if(oldNode.nodeValue!==newNode.nodeValue)oldNode.nodeValue=newNode.nodeValue;
+    return;
+  }
+  for(const a of Array.from(oldNode.attributes)){
+    if(!newNode.hasAttribute(a.name))oldNode.removeAttribute(a.name);
+  }
+  for(const a of Array.from(newNode.attributes)){
+    if(oldNode.getAttribute(a.name)!==a.value)oldNode.setAttribute(a.name,a.value);
+  }
+  // 베팅 슬라이더는 현재 드래그/포커스 상태를 보존
+  if(oldNode.tagName==='INPUT'&&document.activeElement!==oldNode){
+    if(oldNode.type==='checkbox'||oldNode.type==='radio')oldNode.checked=newNode.checked;
+    else if(oldNode.value!==newNode.value)oldNode.value=newNode.value;
+  }
+  patchGameChildren(oldNode,newNode);
+}
+function patchGameChildren(parent,wanted){
+  let oldNode=parent.firstChild,newNode=wanted.firstChild;
+  while(newNode){
+    const nextOld=oldNode&&oldNode.nextSibling;
+    const nextNew=newNode.nextSibling;
+    if(!oldNode)parent.appendChild(newNode.cloneNode(true));
+    else if(!sameGameNode(oldNode,newNode))parent.replaceChild(newNode.cloneNode(true),oldNode);
+    else patchGameNode(oldNode,newNode);
+    oldNode=nextOld;
+    newNode=nextNew;
+  }
+  while(oldNode){
+    const next=oldNode.nextSibling;
+    parent.removeChild(oldNode);
+    oldNode=next;
+  }
+}
+function patchGameMarkup(app,html){
+  const next=document.createElement('template');
+  next.innerHTML=html;
+  patchGameChildren(app,next.content);
+}
 function render(){
   voiceCheck();
   if(S.dragging)return;
@@ -829,7 +874,12 @@ function render(){
   const r=R();
   document.body.classList.toggle('ingame',!!r.started);
   const html=(r.started?tableView(r):lobbyView(r));
-  if(html!==S.lastHTML){app.innerHTML=html;S.lastHTML=html}
+  if(html!==S.lastHTML){
+    // 같은 판의 턴만 바뀌었다면 카드·아바타 DOM을 유지
+    if(r.started&&app.querySelector('.tablearea')&&app.querySelector('.mine'))patchGameMarkup(app,html);
+    else app.innerHTML=html;
+    S.lastHTML=html;
+  }
   if(S.bseenNext)S.bseen=S.bseenNext;if(S.bannerNext)S.bannerN=S.bannerNext;
   {const H=r.hand;if(H&&S.my.cards&&S.my.n===H.n)S.myseen=H.n}
   tick();
