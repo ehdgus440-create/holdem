@@ -357,6 +357,54 @@ body.ingame .tw{inset:44px 4px 30px}
 .tablearea .tw .tw .banner .bt{font-size:14px}
 .tablearea .tw .tw .banner small{font-size:10px}
 }
+/* ORIGINAL PREMIUM HOLD'EM UI RESTORED · Render WebSocket edition */
+:root{--felt:#006457;--felt2:#061819;--ink:#f9ead2;--muted:#b2c6be;--gold:#f1ca7d;--red:#e43d4c;--line:#9f844e68;--pri:#c58c3b;--ok:#10a888}
+html,body{background:#050d0e;color:#f9eacb}
+body{background:radial-gradient(ellipse at 50% 28%,#14453c 0%,#061b1d 58%,#050b0e 100%) fixed!important}
+body:before{position:fixed;inset:0;pointer-events:none;content:"";opacity:.3;background-image:repeating-linear-gradient(42deg,transparent 0 34px,#8dc0a009 35px 36px,transparent 37px 69px),repeating-linear-gradient(-42deg,transparent 0 34px,#e0c18f08 35px 36px,transparent 37px 69px)}
+#app{position:relative;z-index:1}
+button{box-shadow:inset 0 1px 0 #ffffff1d,0 4px 10px #0006;transition:filter .15s ease}button:active{filter:brightness(1.12)}
+.card{background:linear-gradient(160deg,#112d2d,#081919 92%);border:1px solid #c39c575a;color:#f5e9d4;box-shadow:0 10px 30px #0008}
+label{color:#dfcda6}.muted{color:#9fbbb0}h2,h3{color:#f1d298}
+input,select{background:#081b1d;color:#fff3d9;border:1px solid #b9966080}input:focus,select:focus{border-color:#eec97e}
+.primary{background:linear-gradient(145deg,#f4d392,#bd893c);color:#261906;box-shadow:inset 0 2px 2px #fff7,0 4px 0 #725021}
+.sel button{color:#eedab1;background:#0b2926;border:1px solid #9c815661}.sel button.on{background:linear-gradient(160deg,#f9d996,#b98b39);color:#241809}
+.lux-top{display:flex;align-items:center;justify-content:space-between;gap:5px;min-height:45px;padding:4px 7px;border-bottom:1px solid #bd925454;color:#f6d28c}
+.lux-top .lux-brand{font-weight:900;font-size:18px;white-space:nowrap;text-shadow:0 1px 12px #c18e5266}
+.lux-actions{display:flex;gap:4px}.lux-icon{border:1px solid #b99b6590;background:#233f44;color:#e6d4a3;border-radius:9px;padding:7px 9px;min-height:35px;min-width:36px}
+.lux-home{height:auto;min-height:calc(100dvh - 64px);border:1px solid #bf9a5b73;border-radius:18px;margin-top:8px;padding:clamp(12px,3vw,22px);background:radial-gradient(ellipse at 50% 10%,#145246,#0b2a27 55%,#061616 100%);box-shadow:inset 0 1px 0 #fff2,0 10px 28px #0009}
+.lux-suits{text-align:center;font-size:25px;letter-spacing:11px;color:#f0c778;text-shadow:0 0 15px #dba24b80;padding:8px 0 4px}
+.lux-cards-logo{position:relative;height:107px;display:flex;justify-content:center;align-items:center;margin:5px 0 -2px}
+.lux-logo-card{display:flex;position:absolute;width:64px;height:85px;background:linear-gradient(145deg,#fffbea,#e5d7b9);border:1px solid #f5da9c;border-radius:9px;color:#201a15;font:bold 35px Georgia,serif;padding:7px;box-shadow:0 5px 15px #0008}
+.lux-logo-card.left{transform:translateX(-18px) rotate(-15deg)}.lux-logo-card.right{color:#bd273b;transform:translateX(18px) rotate(14deg)}
+.lux-logo-coin{position:absolute;top:52px;width:53px;height:53px;line-height:51px;text-align:center;border:5px double #eec979;border-radius:50%;background:radial-gradient(#193e33,#071d1e);color:#f8d88f;font-size:30px;box-shadow:0 4px 18px #000b,0 0 12px #dcae5066}
+.lux-home h1{text-align:center;color:#e5b968;font-weight:900;margin:8px 0 2px;font-size:clamp(25px,7vw,32px);text-shadow:0 2px 9px #000b}.lux-home .lux-en{text-align:center;letter-spacing:4px;color:#e0bb7a;font-size:10px}
+.lux-question{text-align:center;font-weight:900;color:#f4d08d;margin:16px 0 8px}.lux-home input{height:42px;font-size:14px;padding:8px 11px}.lux-home label{font-size:12px;margin:9px 0 4px}
+.lux-mode{width:100%;display:flex;align-items:center;text-align:left;gap:13px;min-height:58px;padding:10px 14px;border:1px solid #d7b86c93;border-radius:12px;margin-top:7px;color:#ffebc7;background:linear-gradient(110deg,#173c34,#0c2928 90%)}
+.lux-mode .lux-mode-icon{font-size:20px;min-width:26px;text-align:center;color:#e7bc6b}.lux-mode .lux-mode-title{flex:1;font-size:16px;font-weight:900}.lux-mode .lux-mode-sub{display:block;font-size:10px;font-weight:400;color:#b6c6bb;margin-top:3px}.lux-mode .lux-chevron{font-size:21px;color:#e4c47a}
+.lux-mode.practice{background:linear-gradient(120deg,#0e8773,#096251);color:#f7f1de}.lux-mode.create{background:linear-gradient(120deg,#f2d08e,#c58e3f);color:#3b250d}.lux-mode.create .lux-mode-sub,.lux-mode.create .lux-chevron,.lux-mode.create .lux-mode-icon{color:#67451a}
+.lux-share{width:100%;margin-top:8px;color:#efcd80;background:#163e37;border:1px solid #d0ad6b80;min-height:39px;font-size:13px}
+.lux-hint{font-size:11px;color:#c2b48e;line-height:1.45;border:1px solid #bb9c6251;background:#092321;border-radius:10px;padding:8px;margin-top:8px}.lux-muted-foot{font-size:10px;color:#9fb4aa;margin-top:8px}
+.lux-net{text-align:center;border:1px solid #dab76969;background:#071b19;border-radius:9px;padding:7px;color:#e0c988;font-size:12px;margin:6px 0}.lux-join,.lux-settings{margin-top:9px;border:1px solid #baa06655;border-radius:13px;background:#09201f;padding:10px}.lux-join .row{margin-top:5px}.lux-settings summary{font-size:13px;color:#dfc283}.lux-settings .sel button{padding:7px;font-size:12px}
+body:not(.ingame) #app{max-width:570px;padding:8px 8px 20px}
+body.ingame #app{background:radial-gradient(ellipse at 50% 30%,#0c302d14,transparent 70%)}
+body.ingame .top{border:1px solid #c5a35d68;border-radius:12px;padding:4px 8px;background:linear-gradient(120deg,#102a2aef,#0d252bcf)}
+body.ingame .topbtn{background:#28433f;border:1px solid #bd9e6480;color:#f6ddb0}body.ingame .top .codebox{background:#081c1b;color:#ffe5ab}
+body.ingame .tw .rail{padding:8px;background:linear-gradient(128deg,#b99561,#373331 28%,#9c7340 55%,#2a2b2b 84%,#e7b963);box-shadow:0 0 0 2px #1f2423,0 0 0 4px #c6a467,0 0 24px #0ab8ac40,0 10px 30px #000c}
+body.ingame .tw .felt{background:radial-gradient(ellipse at 50% 48%,#008c7c,#006052 60%,#03423f 100%);box-shadow:inset 0 0 0 1px #e2c58270,inset 0 0 25px #0006}
+body.ingame .tw .feltlogo{top:21%;font-size:clamp(9px,2.4vw,17px);letter-spacing:2px;color:#d5c08035;background:none}
+body.ingame .tw .center{top:52%;width:95%}.tw .pot{background:linear-gradient(110deg,#0b2a28,#103b37);border:1px solid #c69e5b9c;color:#ffdf85;font-size:17px;padding:4px 12px;box-shadow:0 2px 12px #0007}.tw .street{color:#f4e6b6;opacity:.93;font-size:12px}
+body.ingame .tw .pc.bd{border:1px solid #ead6aa;background:linear-gradient(150deg,#fff,#eee7d5)}body.ingame .tw .pc.bd .r{font-size:19px}body.ingame .tw .pc.bd .s{font-size:17px}
+body.ingame .tw .pc.bd.empty{background:#a6f1d30d;border:1px dashed #d2e5d174}
+body.ingame .seat{width:clamp(49px,16vw,75px)}body.ingame .seat .ring{background:linear-gradient(140deg,#f7d18e,#956727);box-shadow:0 0 0 1px #ecc37c,0 3px 10px #0009}
+body.ingame .seat .avatar-img{object-fit:cover;object-position:center 35%;border-radius:50%;background:#153a37;width:100%;height:100%;display:block;border:1px solid #f7dea8}
+body.ingame .seat.turn .ring{background:conic-gradient(#f7d179 var(--p,100%),#094d46 0);box-shadow:0 0 0 1px #f7d179,0 0 18px #0ce2cbbf}body.ingame .seat.me .ring{box-shadow:0 0 0 2px #f2c66a,0 0 16px #e5b7528c}
+body.ingame .seat .plate{background:linear-gradient(#0e2322,#081414);border:1px solid #caa76c99;border-radius:7px;min-width:56px}body.ingame .seat .sn{color:#ffeacc;font-size:10px}body.ingame .seat .sc{color:#f4f8ef;font-size:10px}body.ingame .seat .ss{color:#e6c785;font-size:9px}body.ingame .seat.out{opacity:.55}
+body.ingame .mine{background:linear-gradient(160deg,#0b2928,#051a1c);border:1px solid #c6a05b92;box-shadow:inset 0 1px 0 #e4bd6933,0 8px 24px #0008;border-radius:16px}body.ingame .mine .muted,body.ingame .mine .wait{color:#c6d5d0}
+body.ingame .pc.big{background:linear-gradient(140deg,#fff,#e8e4d6);border:1px solid #edddae}body.ingame .pc.big .r{font-size:26px}body.ingame .pc.big .s{font-size:22px}body.ingame .mystr b{font-size:20px;color:#f6d17c}
+body.ingame .mine .bfold{background:linear-gradient(#393a3e,#1a1d20);color:#f5f4f0;border:1px solid #c4ab8180}body.ingame .mine .bcall{background:linear-gradient(#0aa18a,#075344);color:#fff1d9;border:1px solid #4bd5be81}body.ingame .mine .braise{background:linear-gradient(#f3ca79,#ba8033);color:#2f1c08;border:1px solid #f3d68f}body.ingame .mine .ballin{background:linear-gradient(#f25759,#a92730)}body.ingame .mine .raisebox{background:#061e20;border:1px solid #b4935d90}body.ingame .mine .quick button{background:#0e2727;border:1px solid #ad905c9c;color:#e8d6a8}body.ingame .mine .acts button{box-shadow:inset 0 2px 1px #fff3,0 3px 5px #0009;font-weight:900}body.ingame .emotes button{background:#092523;border:1px solid #c4a05e65;color:#f2c77c}
+@media(max-width:360px){.lux-home{padding:10px}.lux-suits{font-size:20px}.lux-cards-logo{height:82px}.lux-logo-card{width:51px;height:68px;font-size:28px}.lux-logo-coin{width:46px;height:46px;line-height:43px;top:41px}.lux-home h1{font-size:25px}.lux-mode{min-height:51px;padding:8px}.lux-mode .lux-mode-title{font-size:14px}body.ingame .tw .pc.bd{width:29px;height:43px}body.ingame .tw .pc.bd .r{font-size:16px}}
+@media(max-height:620px) and (orientation:portrait){.lux-home{min-height:0}.lux-suits{padding:2px 0;font-size:20px}.lux-cards-logo{height:65px}.lux-logo-card{width:43px;height:55px;font-size:25px}.lux-logo-coin{width:37px;height:37px;line-height:35px;top:30px;font-size:21px}.lux-question{margin:5px}.lux-mode{min-height:44px;padding:6px}.lux-mode .lux-mode-title{font-size:13px}.lux-home input{height:34px}}
 </style>
 </head>
 <body>
@@ -902,36 +950,44 @@ const LADDER=(()=>{const a=[];let b=400;while(b<MAX_BB){a.push(b);b*=2}a.push(MA
 const bl=b=>{const k=x=>x>=10000?(x/10000)+'만':fmt(x);return k(b/2)+'/'+k(b)};
 function homeView(){
   const st=S.create||(S.create={chips:100000,mode:0,fix:400,bots:9,rebuy:1});
-  const opt=(k,vals,lab)=>`<div class="sel">${vals.map((v,i)=>`<button class="${st[k]==v?'on':''}" data-set="${k}" data-v="${v}">${lab?lab[i]:v}</button>`).join('')}</div>`;
-  return `<div class="hero"><div class="logo">🂡🂮</div><h1>친구끼리 홀덤</h1><p>최대 10명 · 각자 폰으로 접속 · 칩은 가짜 포인트</p></div>
-  ${S.err?`<div class="card"><div class="err" style="margin:0">${esc(S.err)}</div></div>`:''}
-  <div class="netst">${S.net==='on'?'🟢 서버 연결됨 · 로그인 없이 바로 참여 가능':S.netSlow?'🟡 서버 깨우는 중… (처음엔 최대 1분)':'🟡 서버 연결 중…'}</div>
-  <div class="card">
-    <label>내 닉네임</label><input id="nameIn" maxlength="10" placeholder="예: 포커왕 민수" value="${esc(S.name)}">
-    <label>방 코드로 입장</label>
-    <div class="row"><input id="codeIn" maxlength="4" placeholder="ABCD" style="text-transform:uppercase;letter-spacing:4px;text-align:center" value="${esc(S.joinCode||'')}"><button class="primary" style="margin:0;flex:.7;padding:12px" data-act="join">입장</button></div>
-  </div>
-  <div class="card">
-    <h3>🤖 연습 게임</h3>
-    <p class="muted" style="margin:0 0 6px">혼자서 컴퓨터 게스트와 바로 해봐요. 아래 방 설정(시작 칩·블라인드)이 그대로 적용돼요.</p>
-    <label>게스트 수</label>${opt('bots',[1,2,3,4,5,6,7,8,9],[1,2,3,4,5,6,7,8,9].map(n=>n+'명'))}
-    <button class="primary" data-act="practice" style="background:linear-gradient(135deg,#d8ffe9,#3ccf8e 30%,#0f7a4c 60%,#7fe6b5);color:#03241a;box-shadow:0 4px 0 #064d2e,0 10px 24px rgba(34,184,119,.3)">🤖 게스트와 연습 시작</button>
-  </div>
-  <div class="card">
-    <h3>🃏 새 방 만들기</h3>
-    <label>시작 칩</label>${opt('chips',[100000,200000,300000,500000,1000000],['10만','20만','30만','50만','100만'])}
-    <label>리바인 (칩이 다 떨어졌을 때 다시 사기)</label>${opt('rebuy',[1,0],['🔄 허용 (본인이 선택)','🚫 불가 (탈락)'])}
-    <label>블라인드</label>${opt('mode',[0,1],['⏫ 자동 업 (기본)','📌 고정'])}
-    ${st.mode?`<label>고정할 블라인드 (게임 끝까지 그대로)</label>${opt('fix',FIXED,FIXED.map(b=>bl(b)))}`
-      :`<p class="muted" style="margin:8px 0 0;line-height:1.6">200/400에서 시작해 6분마다 2배로 올라가고,<br>최고 50,000/100,000에서 멈춰요.<br><span style="opacity:.8">${LADDER.map(b=>bl(b)).join(' → ')}</span></p>`}
-    <p class="muted" style="margin:10px 0 0">내 차례에 15초 안에 안 하면 자동 폴드 (낼 돈이 없으면 자동 체크)</p>
-    <button class="primary" data-act="create">방 만들기</button>
-  </div>
-  <div class="card">
-    <details><summary>📖 족보 (높은 순)</summary><ol class="rank">
-    <li>로열 플러시 — 같은 무늬 10 J Q K A</li><li>스트레이트 플러시 — 같은 무늬 연속 5장</li><li>포카드 — 같은 숫자 4장</li><li>풀하우스 — 트리플 + 원페어</li><li>플러시 — 같은 무늬 5장</li><li>스트레이트 — 연속된 숫자 5장</li><li>트리플 — 같은 숫자 3장</li><li>투페어</li><li>원페어</li><li>하이카드</li></ol></details>
-    <details><summary>🎲 진행 방법</summary><p class="muted" style="line-height:1.7">각자 2장을 받고, 바닥 카드 5장(플랍 3 → 턴 1 → 리버 1)과 합쳐 가장 좋은 5장으로 겨뤄요. 매 단계마다 체크·콜·레이즈·폴드를 고르고, 끝까지 남은 사람끼리 카드를 까서 이긴 사람이 팟을 가져가요. 다른 사람을 다 폴드시키면 카드를 안 보여주고도 이겨요 — 블러핑!</p></details>
-  </div>`;
+  const opt=(k,vals,lab)=>'<div class="sel">'+vals.map((v,i)=>'<button class="'+(st[k]==v?'on':'')+'" data-set="'+k+'" data-v="'+v+'">'+(lab?lab[i]:v)+'</button>').join('')+'</div>';
+  const offline=S.net==='on'?'🟢 서버 연결됨 · 로그인 없이 참여':S.netSlow?'🟡 서버를 깨우는 중… 잠시 후 연결됩니다':'🟡 서버 연결 중…';
+  return `<div class="lux-top">
+    <strong class="lux-brand">♠ ♥ 친구끼리 홀덤</strong>
+    <div class="lux-actions">
+      <button class="lux-icon" data-act="voice" title="음성 안내">${S.voice?'🔊':'🔇'}</button>
+      <button class="lux-icon" data-act="homeSettings" title="게임 설정">⚙</button>
+      <button class="lux-icon" data-act="full" title="전체화면">⛶</button>
+    </div>
+  </div><main class="lux-home">
+    <div class="lux-suits">♠ ♣ ♥ ♦</div>
+    <div class="lux-cards-logo" aria-hidden="true">
+      <span class="lux-logo-card left">A♠</span><span class="lux-logo-card right">A♥</span><span class="lux-logo-coin">♠</span>
+    </div>
+    <h1>친구끼리 홀덤</h1><div class="lux-en">TEXAS HOLD'EM</div>
+    <div class="lux-question">♠ 어떤 게임을 할까요?</div>
+    ${S.err?`<div class="err">${esc(S.err)}</div>`:''}
+    <label for="nameIn">내 닉네임</label>
+    <input id="nameIn" maxlength="10" placeholder="게임에서 사용할 닉네임" value="${esc(S.name)}">
+    <button class="lux-mode" data-act="joinopen"><span class="lux-mode-icon">♟</span><span class="lux-mode-title">게스트<span class="lux-mode-sub">로그인 없이 친구 방 입장</span></span><span class="lux-chevron">›</span></button>
+    <button class="lux-mode practice" data-act="practice"><span class="lux-mode-icon">🂡</span><span class="lux-mode-title">게스트와 연습 · 10명<span class="lux-mode-sub">나 1명과 컴퓨터 게스트 9명</span></span><span class="lux-chevron">›</span></button>
+    <button class="lux-mode create" data-act="create"><span class="lux-mode-icon">♛</span><span class="lux-mode-title">방 만들기<span class="lux-mode-sub">친구들과 플레이할 방 생성</span></span><span class="lux-chevron">›</span></button>
+    <button class="lux-mode" data-act="joinopen"><span class="lux-mode-icon">♣</span><span class="lux-mode-title">친구 방 입장<span class="lux-mode-sub">4자리 방 코드로 참가</span></span><span class="lux-chevron">›</span></button>
+    ${(S.showJoin||S.joinCode)?`<div class="lux-join"><label for="codeIn">친구 방 코드</label><div class="row"><input id="codeIn" maxlength="4" placeholder="ABCD" style="text-transform:uppercase;letter-spacing:4px;text-align:center" value="${esc(S.joinCode||'')}"><button data-act="join" class="primary" style="flex:.62;margin:0">입장</button></div></div>`:''}
+    <button class="lux-share" data-act="copyapp">🔗 친구에게 앱 링크 공유</button>
+    <div class="lux-net">${offline}</div>
+    ${S.showHomeSettings?`<div class="lux-settings">
+      <b>⚙ 게임 설정</b>
+      <label>시작 칩</label>${opt('chips',[100000,200000,300000,500000,1000000],['10만','20만','30만','50만','100만'])}
+      <label>리바인</label>${opt('rebuy',[1,0],['허용','불가'])}
+      <label>블라인드</label>${opt('mode',[0,1],['6분마다 자동 업','고정'])}
+      ${st.mode?`<label>고정 블라인드</label>${opt('fix',[400,1000,2000,4000,10000,20000,50000,100000],[400,1000,2000,4000,10000,20000,50000,100000].map(bl))}`:''}
+      <label>연습 게스트 수</label>${opt('bots',[1,2,3,4,5,6,7,8,9],[1,2,3,4,5,6,7,8,9].map(n=>n+'명'))}
+      <button class="lux-share" data-act="homeSettings">설정 닫기</button>
+    </div>`:''}
+    <div class="lux-hint">친구끼리 게임 링크와 방 코드를 보내면 됩니다. 같은 Render 주소로 접속해 같은 방에 입장하세요.</div>
+    <div class="lux-muted-foot">가상 칩 · 10명까지 · 딜러/블라인드 자동 이동 · 카드 공개 · 음성 안내</div>
+  </main>`;
 }
 function lobbyView(r){
   const host=isHost(),act=r.order.filter(u=>!r.players[u].left);
@@ -1000,7 +1056,7 @@ function tableView(r){
     const bub=S.bubbles[u]?`<div class="bubble">${esc(S.bubbles[u].m)}</div>`:'';
     html+=`<div data-seat="${u}" class="seat ${u===me?'me':''} ${turn?'turn':''} ${(ps&&ps.folded)||p.left||(!ps&&H)?'out':''} ${won?'won':''}" style="left:${x}%;top:${y}%">${bub}
       ${cards?`<div class="scards">${cards}</div>`:''}
-      <div class="ring" ${turn?'data-ring':''}><span class="av" style="background:${colorOf(u)}">${esc((p.name||'?')[0])}</span>${p.rebuys?`<span class="rb">R${p.rebuys}</span>`:''}</div>
+      <div class="ring" ${turn?'data-ring':''}><img class="av avatar-img" src="/assets/avatar-${r.order.indexOf(u)%6}.webp" alt="" decoding="async">${p.rebuys?`<span class="rb">R${p.rebuys}</span>`:''}</div>
       <div class="plate"><div class="sn">${esc(p.name)}</div><div class="sc">${fmt(p.chips)}</div></div>
       <div class="ss">${status}</div>${hname}</div>`;
     // bet chips & dealer button toward center
@@ -1144,7 +1200,11 @@ document.addEventListener('click',e=>{
   const rq=e.target.closest('[data-rq]');if(rq){S.raise=+rq.dataset.rq;const rr=$('#rr');if(rr)rr.value=S.raise;const rv=$('#rv');if(rv)rv.textContent=fmt(S.raise);return}
   const b=e.target.closest('[data-act]');if(!b||b.disabled)return;
   const a=b.dataset.act;S.err='';
-  if(a==='create')createRoom();
+  if(a==='homeSettings'){const nick=$('#nameIn');if(nick)S.name=nick.value.trim().slice(0,10);S.showHomeSettings=!S.showHomeSettings;render()}
+  else if(a==='joinopen'){const nick=$('#nameIn');if(nick)S.name=nick.value.trim().slice(0,10);S.showJoin=!S.showJoin;render()}
+  else if(a==='copyapp')copyText(location.origin+'/', '앱 주소가 복사됐어요. 친구에게 보내세요.');
+  else if(a==='full'){try{if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen()}catch(e){toast('전체화면을 지원하지 않는 브라우저입니다')}}
+  else if(a==='create')createRoom();
   else if(a==='practice')startPractice();
   else if(a==='voice'){S.voice=!S.voice;ls('h_voice',S.voice?'1':'0');
     if(S.voice){S.vp=null;S.vUnlocked=true;audioUnlock();sfx('turn');
