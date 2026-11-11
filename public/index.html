@@ -821,6 +821,10 @@ function voiceCheck(){
 }
 /* 차례/베팅 갱신 시 게임판 전체 innerHTML 교체를 피함.
    카드 노드를 재사용해 불필요한 재등장·깜빡임을 막습니다. */
+function gameNodeKey(node){
+  if(node&&node.nodeType===1)return node.getAttribute('data-seat')||node.getAttribute('data-bet')||node.getAttribute('data-dealer');
+  return null;
+}
 function sameGameNode(a,b){
   return a&&b&&a.nodeType===b.nodeType&&(a.nodeType!==1||a.tagName===b.tagName);
 }
@@ -835,7 +839,6 @@ function patchGameNode(oldNode,newNode){
   for(const a of Array.from(newNode.attributes)){
     if(oldNode.getAttribute(a.name)!==a.value)oldNode.setAttribute(a.name,a.value);
   }
-  // 베팅 슬라이더는 현재 드래그/포커스 상태를 보존
   if(oldNode.tagName==='INPUT'&&document.activeElement!==oldNode){
     if(oldNode.type==='checkbox'||oldNode.type==='radio')oldNode.checked=newNode.checked;
     else if(oldNode.value!==newNode.value)oldNode.value=newNode.value;
@@ -843,20 +846,30 @@ function patchGameNode(oldNode,newNode){
   patchGameChildren(oldNode,newNode);
 }
 function patchGameChildren(parent,wanted){
-  let oldNode=parent.firstChild,newNode=wanted.firstChild;
-  while(newNode){
-    const nextOld=oldNode&&oldNode.nextSibling;
-    const nextNew=newNode.nextSibling;
-    if(!oldNode)parent.appendChild(newNode.cloneNode(true));
-    else if(!sameGameNode(oldNode,newNode))parent.replaceChild(newNode.cloneNode(true),oldNode);
-    else patchGameNode(oldNode,newNode);
-    oldNode=nextOld;
-    newNode=nextNew;
+  let cursor=parent.firstChild;
+  for(const desired of Array.from(wanted.childNodes)){
+    const key=gameNodeKey(desired);
+    let match=null;
+    if(key){
+      for(let n=cursor;n;n=n.nextSibling){
+        if(gameNodeKey(n)===key&&sameGameNode(n,desired)){match=n;break}
+      }
+    }else if(cursor&&!gameNodeKey(cursor)&&sameGameNode(cursor,desired)){
+      match=cursor;
+    }
+    if(match){
+      if(match!==cursor)parent.insertBefore(match,cursor);
+      patchGameNode(match,desired);
+      cursor=match.nextSibling;
+    }else{
+      const node=desired.cloneNode(true);
+      parent.insertBefore(node,cursor);
+    }
   }
-  while(oldNode){
-    const next=oldNode.nextSibling;
-    parent.removeChild(oldNode);
-    oldNode=next;
+  while(cursor){
+    const next=cursor.nextSibling;
+    parent.removeChild(cursor);
+    cursor=next;
   }
 }
 function patchGameMarkup(app,html){
@@ -985,14 +998,14 @@ function tableView(r){
     if(won)status=`<b class="wn">+${fmt(H.result.won[u])}</b>`;
     const hname=H&&H.result&&H.result.names&&H.result.names[u]?`<div class="hn">${esc(H.result.names[u])}</div>`:'';
     const bub=S.bubbles[u]?`<div class="bubble">${esc(S.bubbles[u].m)}</div>`:'';
-    html+=`<div class="seat ${u===me?'me':''} ${turn?'turn':''} ${(ps&&ps.folded)||p.left||(!ps&&H)?'out':''} ${won?'won':''}" style="left:${x}%;top:${y}%">${bub}
+    html+=`<div data-seat="${u}" class="seat ${u===me?'me':''} ${turn?'turn':''} ${(ps&&ps.folded)||p.left||(!ps&&H)?'out':''} ${won?'won':''}" style="left:${x}%;top:${y}%">${bub}
       ${cards?`<div class="scards">${cards}</div>`:''}
       <div class="ring" ${turn?'data-ring':''}><span class="av" style="background:${colorOf(u)}">${esc((p.name||'?')[0])}</span>${p.rebuys?`<span class="rb">R${p.rebuys}</span>`:''}</div>
       <div class="plate"><div class="sn">${esc(p.name)}</div><div class="sc">${fmt(p.chips)}</div></div>
       <div class="ss">${status}</div>${hname}</div>`;
     // bet chips & dealer button toward center
-    if(ps&&H.street!=='done'&&ps.bet>0){const bx=50+29*cx,by=50+27*cy;html+=`<div class="sbet" style="left:${bx}%;top:${by}%"><span class="chipico"></span>${fmt(ps.bet)}</div>`}
-    if(H&&H.dealer===u){const dx=50+33*Math.cos(a+.32),dy=50+31*Math.sin(a+.32);html+=`<div class="dbtn" style="left:${dx}%;top:${dy}%">D</div>`}
+    if(ps&&H.street!=='done'&&ps.bet>0){const bx=50+29*cx,by=50+27*cy;html+=`<div data-bet="${u}" class="sbet" style="left:${bx}%;top:${by}%"><span class="chipico"></span>${fmt(ps.bet)}</div>`}
+    if(H&&H.dealer===u){const dx=50+33*Math.cos(a+.32),dy=50+31*Math.sin(a+.32);html+=`<div data-dealer="${u}" class="dbtn" style="left:${dx}%;top:${dy}%">D</div>`}
   });
   if(H)S.bseenNext={n:H.n,c:H.board.length};
   if(H&&H.street==='done'&&H.result)html+=resultBanner(r,H);
