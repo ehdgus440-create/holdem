@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 const PAGE = path.join(__dirname, 'public', 'index.html');
 const MAX_PLAYERS = 10;
 const ICON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3c4"/><stop offset=".45" stop-color="#d4a63c"/><stop offset="1" stop-color="#8a6416"/></linearGradient><radialGradient id="f" cx=".5" cy=".4" r=".7"><stop offset="0" stop-color="#1c7a55"/><stop offset="1" stop-color="#04261a"/></radialGradient></defs><rect width="512" height="512" rx="112" fill="#0b0a0d"/><rect x="28" y="28" width="456" height="456" rx="92" fill="url(#f)" stroke="url(#g)" stroke-width="14"/><text x="256" y="300" text-anchor="middle" font-family="Georgia,serif" font-size="230" font-weight="bold" fill="url(#g)">♠</text><text x="256" y="430" text-anchor="middle" font-family="Georgia,serif" font-size="74" font-weight="bold" fill="url(#g)" letter-spacing="6">HOLD'EM</text></svg>`;
-const NEXT_HAND_MS = 9000;
+const NEXT_HAND_MS = 6000;
 const ROOM_IDLE_MS = 3 * 60 * 60 * 1000; // 아무도 없이 3시간 지나면 방 정리
 
 const rooms = new Map(); // code -> { r, priv, socks: Map<id, ws>, turnT, nextT, emptySince }
